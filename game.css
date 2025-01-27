@@ -1,0 +1,41 @@
+body {
+    margin: 0;
+    padding: 0;
+}
+
+#board {
+    width: 100vw;
+    height: 50vh;
+    background-color: rgb(88, 212, 243);
+    position: relative;
+    overflow: hidden;
+}
+
+#player {
+    background-color: rgb(255, 0, 166);
+    position: absolute;
+}
+
+.obstacle {
+    background-color: rgb(110, 28, 110);
+    position: absolute;
+}
+.ennemy {
+    background-color: rgb(184, 19, 19);
+    position: absolute;
+}
+
+.projectile{
+    background-color: rgb(224, 226, 86);
+    position: absolute;
+
+}
+.castle {
+    background-color: rgb(87, 87, 87);
+    position: absolute;
+}
+
+#page-gameover {
+    text-align: center;
+    background-color: rgb(216, 197, 232);
+}
