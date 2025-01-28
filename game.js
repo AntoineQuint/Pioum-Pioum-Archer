@@ -66,8 +66,7 @@ class Arrow {
     this.parentElm.appendChild(this.projectileElm);
   }
   arrowMovement() {
-    let direction = "right";
-    setInterval(() => {
+    const arrowShoot = setInterval(() => {
       projectileArr.forEach((projectileInstance) => {
         if (direction === "right") {
           projectileInstance.positionX++;
@@ -82,10 +81,13 @@ class Arrow {
             projectileInstance.positionX &&
           newEnnemy.positionY <
             projectileInstance.positionY + projectileInstance.height &&
-          newEnnemy.positionY + newEnnemy.height > projectileInstance.positionY
+          newEnnemy.positionY + newEnnemy.height > projectileInstance.positionY && newEnnemy.status === "alive"
         ) {
-          this.parentElm.removeChild(newEnnemy.ennemyElm);
-          this.parentElm.removeChild(newArrow.projectileElm);
+          
+          newEnnemy.ennemyElm.remove();
+          newEnnemy.status = "dead";
+          projectileInstance.projectileElm.remove();
+          clearInterval(arrowShoot);
         }
 
         projectileInstance.projectileElm.style.width =
@@ -97,7 +99,7 @@ class Arrow {
         projectileInstance.projectileElm.style.bottom =
           projectileInstance.positionY + "vh";
       });
-    }, 20);
+    }, 30);
   }
 }
 class Obstacle {
@@ -111,7 +113,6 @@ class Obstacle {
   }
   createDomElement() {
     this.obstacleElm = document.createElement("div");
-
     this.obstacleElm.className = "obstacle";
     this.obstacleElm.style.width = this.width + "vw";
     this.obstacleElm.style.height = this.height + "vh";
@@ -150,7 +151,7 @@ class Ennemy {
     this.height = 10;
     this.positionX = 50 + Math.floor(Math.random() * (40 - this.width + 1));
     this.positionY = 0;
-
+    this.status = "alive";
     this.createDomEnnemy();
   }
   createDomEnnemy() {
@@ -204,7 +205,7 @@ class Ennemy {
     this.ennemyElm.style.bottom = this.positionY + "vh";
   }
 }
-
+let direction = "right";
 const player = new Player();
 const obstaclesArr = [];
 const projectileArr = [];
@@ -214,6 +215,7 @@ obstaclesArr.push(newObstacle);
 const newCastle = new Castle();
 const newEnnemy = new Ennemy();
 ennemyArr.push(newEnnemy);
+
 setInterval(() => {
   if (
     player.positionX < newCastle.positionX + newCastle.width &&
@@ -230,7 +232,7 @@ setInterval(() => {
       player.positionX < obstacleInstance.positionX + obstacleInstance.width &&
       player.positionX + player.width > obstacleInstance.positionX &&
       player.positionY < obstacleInstance.positionY + obstacleInstance.height &&
-      player.positionY + player.height > obstacleInstance.positionY
+      player.positionY + player.height > obstacleInstance.positionY 
     ) {
       // Collision detected!
       console.log("game over...");
@@ -246,7 +248,7 @@ setInterval(() => {
       player.positionX + player.width > ennemyInstance.positionX &&
       player.positionY < ennemyInstance.positionY + ennemyInstance.height &&
       player.positionY + player.height > ennemyInstance.positionY &&
-      newEnnemy === true
+      newEnnemy.status === "alive"
     ) {
       // Collision detected!
       console.log("game over...");
@@ -273,4 +275,5 @@ document.addEventListener("keydown", (event) => {
 });
 
 player.moveDown();
+
 newEnnemy.moveLeft();
