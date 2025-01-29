@@ -75,7 +75,7 @@ class Arrow {
         } else if (this.direction === "left") {
           projectileInstance.positionX--;
         }
-        
+
         if (
           newEnnemy.positionX <
             projectileInstance.positionX + projectileInstance.width &&
@@ -83,9 +83,10 @@ class Arrow {
             projectileInstance.positionX &&
           newEnnemy.positionY <
             projectileInstance.positionY + projectileInstance.height &&
-          newEnnemy.positionY + newEnnemy.height > projectileInstance.positionY && newEnnemy.status === "alive"
+          newEnnemy.positionY + newEnnemy.height >
+            projectileInstance.positionY &&
+          newEnnemy.status === "alive"
         ) {
-          
           newEnnemy.ennemyElm.remove();
           newEnnemy.status = "dead";
           projectileInstance.projectileElm.remove();
@@ -104,8 +105,8 @@ class Arrow {
     }, 30);
   }
   arrowVanish() {
-    clearInterval(this.arrowShoot);  // Clear the interval
-    this.projectileElm.remove();  // Remove the projectile element
+    clearInterval(this.arrowShoot); // Clear the interval
+    this.projectileElm.remove(); // Remove the projectile element
   }
 }
 class Obstacle {
@@ -177,10 +178,11 @@ class Ennemy {
         (this.positionX < newObstacle.positionX + newObstacle.width &&
           this.positionX + this.width > newObstacle.positionX &&
           this.positionY < newObstacle.positionY + newObstacle.height &&
-          this.positionY + this.height > newObstacle.positionY) ||(this.positionX < newObstacle1.positionX + newObstacle1.width &&
-            this.positionX + this.width > newObstacle1.positionX &&
-            this.positionY < newObstacle1.positionY + newObstacle1.height &&
-            this.positionY + this.height > newObstacle1.positionY) 
+          this.positionY + this.height > newObstacle.positionY) ||
+        (this.positionX < newObstacle1.positionX + newObstacle1.width &&
+          this.positionX + this.width > newObstacle1.positionX &&
+          this.positionY < newObstacle1.positionY + newObstacle1.height &&
+          this.positionY + this.height > newObstacle1.positionY)
       ) {
         this.moveRight();
         clearInterval(lefting);
@@ -197,10 +199,11 @@ class Ennemy {
         (this.positionX < newObstacle.positionX &&
           this.positionX + this.width > newObstacle.positionX &&
           this.positionY < newObstacle.positionY + newObstacle.height &&
-          this.positionY + this.height > newObstacle.positionY) || (this.positionX < newObstacle1.positionX &&
-            this.positionX + this.width > newObstacle1.positionX &&
-            this.positionY < newObstacle1.positionY + newObstacle1.height &&
-            this.positionY + this.height > newObstacle1.positionY) 
+          this.positionY + this.height > newObstacle.positionY) ||
+        (this.positionX < newObstacle1.positionX &&
+          this.positionX + this.width > newObstacle1.positionX &&
+          this.positionY < newObstacle1.positionY + newObstacle1.height &&
+          this.positionY + this.height > newObstacle1.positionY)
       ) {
         this.moveLeft();
         clearInterval(righting);
@@ -241,23 +244,19 @@ setInterval(() => {
     location.href = "winning.html";
   }
   obstaclesArr.forEach((obstacleInstance, i, arr) => {
-    // detect collision
     if (
       player.positionX < obstacleInstance.positionX + obstacleInstance.width &&
       player.positionX + player.width > obstacleInstance.positionX &&
       player.positionY < obstacleInstance.positionY + obstacleInstance.height &&
-      player.positionY + player.height > obstacleInstance.positionY 
+      player.positionY + player.height > obstacleInstance.positionY
     ) {
-      // Collision detected!
       console.log("game over...");
       location.href = "gameover.html";
     }
-    
   });
 }, 30);
 setInterval(() => {
   ennemyArr.forEach((ennemyInstance, i, arr) => {
-    // detect collision
     if (
       player.positionX < ennemyInstance.positionX + ennemyInstance.width &&
       player.positionX + player.width > ennemyInstance.positionX &&
@@ -265,7 +264,6 @@ setInterval(() => {
       player.positionY + player.height > ennemyInstance.positionY &&
       newEnnemy.status === "alive"
     ) {
-      // Collision detected!
       console.log("game over...");
       location.href = "gameover.html";
     }
