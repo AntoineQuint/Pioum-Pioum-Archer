@@ -1,41 +1,93 @@
 body {
-    margin: 0;
-    padding: 0;
+  margin: 0;
+  padding: 0;
 }
 
 #board {
-    width: 100vw;
-    height: 50vh;
-    background-color: rgb(88, 212, 243);
-    position: relative;
-    overflow: hidden;
+  width: 100vw;
+  height: 100vh;
+  background-image: url("justin-r-background1a1.jpg");
+  background-position-x: 0;
+  background-position-y: 0;
+  background-repeat: no-repeat;
+  background-size: cover;
+  position: relative;
+  overflow: hidden;
 }
 
 #player {
-    background-color: rgb(255, 0, 166);
-    position: absolute;
+  background-image: url("ptitbonhomme.jpg");
+  background-position-x: 0;
+  background-position-y: 0;
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-color: rgb(0, 0, 0);
+  position: absolute;
 }
 
 .obstacle {
-    background-color: rgb(110, 28, 110);
-    position: absolute;
+  background-image: url("spikewall.jpg");
+  background-position-x: 0;
+  background-position-y: 0;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-color: rgb(110, 28, 110);
+  position: absolute;
 }
 .ennemy {
-    background-color: rgb(184, 19, 19);
-    position: absolute;
+  background-image: url("mechantpasgentil.jpg");
+  background-position-x: 0;
+  background-position-y: 0;
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-color: rgb(184, 19, 19);
+  position: absolute;
 }
 
-.projectile{
-    background-color: rgb(224, 226, 86);
-    position: absolute;
-
+.projectile {
+  background-color: rgb(224, 226, 86);
+  position: absolute;
 }
 .castle {
-    background-color: rgb(87, 87, 87);
-    position: absolute;
+  background-image: url("chatal.png");
+  background-position-x: 0;
+  background-position-y: 0;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-color: rgb(87, 87, 87);
+  position: absolute;
 }
 
 #page-gameover {
-    text-align: center;
-    background-color: rgb(216, 197, 232);
+  width: 100vw;
+  height: 100vh;
+  background-image: url("lost.png");
+  background-position-x: 0;
+  background-position-y: 0;
+  background-repeat: no-repeat;
+  background-size: cover;
+  position: relative;
+  overflow: hidden;
+  text-align: center;
+  background-color: rgb(216, 197, 232);
+
+  text-align: center;
+  background-color: rgb(216, 197, 232);
+}
+#page-winning {
+  width: 100vw;
+  height: 100vh;
+  background-image: url("xiw72p8nt8q81.webp");
+  background-position-x: 0;
+  background-position-y: 0;
+  background-repeat: no-repeat;
+  background-size: cover;
+  position: relative;
+  overflow: hidden;
+  text-align: center;
+  background-color: rgb(216, 197, 232);
+}
+
+.playAgain {
+  font-size: 5em;
 }

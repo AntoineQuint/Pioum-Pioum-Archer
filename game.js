@@ -1,7 +1,7 @@
 class Player {
   constructor() {
-    this.width = 5;
-    this.height = 10;
+    this.width = 4;
+    this.height = 8;
     this.positionX = 10 - this.width / 2;
     this.positionY = 0;
 
@@ -53,7 +53,9 @@ class Arrow {
     this.width = 3;
     this.height = 1;
     this.positionX = player.positionX;
-    this.positionY = player.positionY + 5;
+    this.positionY = player.positionY + 3;
+    this.arrowShoot = null;
+    this.direction = playerDirection;
   }
   createProjectile() {
     this.projectileElm = document.createElement("div");
@@ -66,14 +68,14 @@ class Arrow {
     this.parentElm.appendChild(this.projectileElm);
   }
   arrowMovement() {
-    const arrowShoot = setInterval(() => {
+    this.arrowShoot = setInterval(() => {
       projectileArr.forEach((projectileInstance) => {
-        if (direction === "right") {
+        if (this.direction === "right") {
           projectileInstance.positionX++;
-        } else if (direction === "left") {
+        } else if (this.direction === "left") {
           projectileInstance.positionX--;
         }
-
+        
         if (
           newEnnemy.positionX <
             projectileInstance.positionX + projectileInstance.width &&
@@ -87,7 +89,7 @@ class Arrow {
           newEnnemy.ennemyElm.remove();
           newEnnemy.status = "dead";
           projectileInstance.projectileElm.remove();
-          clearInterval(arrowShoot);
+          clearInterval(this.arrowShoot);
         }
 
         projectileInstance.projectileElm.style.width =
@@ -101,12 +103,16 @@ class Arrow {
       });
     }, 30);
   }
+  arrowVanish() {
+    clearInterval(this.arrowShoot);  // Clear the interval
+    this.projectileElm.remove();  // Remove the projectile element
+  }
 }
 class Obstacle {
   constructor() {
-    this.width = 5;
+    this.width = 7;
     this.height = 20;
-    this.positionX = 20 + Math.floor(Math.random() * (30 - this.width + 1)); // random number between 0 and (100 - width)
+    this.positionX = 20 + Math.floor(Math.random() * (60 - this.width + 1)); // random number between 0 and (100 - width)
     this.positionY = 0;
 
     this.createDomElement();
@@ -147,8 +153,8 @@ class Castle {
 }
 class Ennemy {
   constructor() {
-    this.width = 5;
-    this.height = 10;
+    this.width = 4;
+    this.height = 8;
     this.positionX = 50 + Math.floor(Math.random() * (40 - this.width + 1));
     this.positionY = 0;
     this.status = "alive";
@@ -171,7 +177,10 @@ class Ennemy {
         (this.positionX < newObstacle.positionX + newObstacle.width &&
           this.positionX + this.width > newObstacle.positionX &&
           this.positionY < newObstacle.positionY + newObstacle.height &&
-          this.positionY + this.height > newObstacle.positionY)
+          this.positionY + this.height > newObstacle.positionY) ||(this.positionX < newObstacle1.positionX + newObstacle1.width &&
+            this.positionX + this.width > newObstacle1.positionX &&
+            this.positionY < newObstacle1.positionY + newObstacle1.height &&
+            this.positionY + this.height > newObstacle1.positionY) 
       ) {
         this.moveRight();
         clearInterval(lefting);
@@ -185,10 +194,13 @@ class Ennemy {
     const righting = setInterval(() => {
       if (
         this.positionX === 100 - this.width ||
-        (this.positionX < newObstacle.positionX + newObstacle &&
+        (this.positionX < newObstacle.positionX &&
           this.positionX + this.width > newObstacle.positionX &&
           this.positionY < newObstacle.positionY + newObstacle.height &&
-          this.positionY + this.height > newObstacle.positionY)
+          this.positionY + this.height > newObstacle.positionY) || (this.positionX < newObstacle1.positionX &&
+            this.positionX + this.width > newObstacle1.positionX &&
+            this.positionY < newObstacle1.positionY + newObstacle1.height &&
+            this.positionY + this.height > newObstacle1.positionY) 
       ) {
         this.moveLeft();
         clearInterval(righting);
@@ -205,16 +217,18 @@ class Ennemy {
     this.ennemyElm.style.bottom = this.positionY + "vh";
   }
 }
-let direction = "right";
 const player = new Player();
 const obstaclesArr = [];
 const projectileArr = [];
 const ennemyArr = [];
 const newObstacle = new Obstacle();
+const newObstacle1 = new Obstacle();
 obstaclesArr.push(newObstacle);
+obstaclesArr.push(newObstacle1);
 const newCastle = new Castle();
 const newEnnemy = new Ennemy();
 ennemyArr.push(newEnnemy);
+let playerDirection = "right";
 
 setInterval(() => {
   if (
@@ -223,8 +237,8 @@ setInterval(() => {
     player.positionY < newCastle.positionY + newCastle.height &&
     player.positionY + player.height > newCastle.positionY
   ) {
-    console.log("game over...");
-    location.href = "gameover.html";
+    console.log("Yey");
+    location.href = "winning.html";
   }
   obstaclesArr.forEach((obstacleInstance, i, arr) => {
     // detect collision
@@ -238,6 +252,7 @@ setInterval(() => {
       console.log("game over...");
       location.href = "gameover.html";
     }
+    
   });
 }, 30);
 setInterval(() => {
@@ -256,13 +271,12 @@ setInterval(() => {
     }
   });
 }, 30);
-
 document.addEventListener("keydown", (event) => {
   if (event.code === "ArrowLeft") {
-    direction = "left";
+    playerDirection = "left";
     player.moveLeft();
   } else if (event.code === "ArrowRight") {
-    direction = "right";
+    playerDirection = "right";
     player.moveRight();
   } else if (event.code === "ArrowUp") {
     player.jump();
@@ -271,6 +285,7 @@ document.addEventListener("keydown", (event) => {
     projectileArr.push(newArrow);
     newArrow.createProjectile();
     newArrow.arrowMovement();
+    setTimeout(() => newArrow.arrowVanish(), 2000);
   }
 });
 
