@@ -90,6 +90,7 @@ class Arrow {
           newEnnemy.ennemyElm.remove();
           newEnnemy.status = "dead";
           projectileInstance.projectileElm.remove();
+          audio.play();
           clearInterval(this.arrowShoot);
         }
 
@@ -220,6 +221,7 @@ class Ennemy {
     this.ennemyElm.style.bottom = this.positionY + "vh";
   }
 }
+const audio = new Audio('wilhelmscream.mp3');
 const player = new Player();
 const obstaclesArr = [];
 const projectileArr = [];
