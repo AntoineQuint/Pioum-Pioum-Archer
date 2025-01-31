@@ -114,7 +114,7 @@ class Obstacle {
   constructor() {
     this.width = 7;
     this.height = 20;
-    this.positionX = 20 + Math.floor(Math.random() * (60 - this.width + 1)); // random number between 0 and (100 - width)
+    this.positionX = 30 + Math.floor(Math.random() * (60 - this.width + 1)); // random number between 0 and (100 - width)
     this.positionY = 0;
 
     this.createDomElement();
@@ -157,7 +157,7 @@ class Ennemy {
   constructor() {
     this.width = 4;
     this.height = 8;
-    this.positionX = 50 + Math.floor(Math.random() * (40 - this.width + 1));
+    this.positionX = 10 + Math.floor(Math.random() * (40 - this.width + 1));
     this.positionY = 0;
     this.status = "alive";
     this.createDomEnnemy();
@@ -177,7 +177,9 @@ class Ennemy {
       if (
         this.positionX === 0 ||
         (this.positionX < newObstacle.positionX + newObstacle.width &&
-          this.positionX > newObstacle.positionX )
+          this.positionX > newObstacle.positionX ) ||
+        (this.positionX < newObstacle1.positionX + newObstacle1.width &&
+          this.positionX + this.width > newObstacle1.positionX )
       ) {
         this.moveRight();
         clearInterval(lefting);
@@ -192,7 +194,9 @@ class Ennemy {
       if (
         this.positionX === 100 - this.width ||
         (this.positionX < newObstacle.positionX &&
-          this.positionX + this.width > newObstacle.positionX )
+          this.positionX + this.width > newObstacle.positionX ) ||
+        (this.positionX < newObstacle1.positionX &&
+          this.positionX + this.width > newObstacle1.positionX )
       ) {
         this.moveLeft();
         clearInterval(righting);
@@ -215,7 +219,9 @@ const obstaclesArr = [];
 const projectileArr = [];
 const ennemyArr = [];
 const newObstacle = new Obstacle();
+const newObstacle1 = new Obstacle();
 obstaclesArr.push(newObstacle);
+obstaclesArr.push(newObstacle1);
 const newCastle = new Castle();
 const newEnnemy = new Ennemy();
 ennemyArr.push(newEnnemy);
@@ -229,7 +235,7 @@ setInterval(() => {
     player.positionY + player.height > newCastle.positionY
   ) {
     console.log("Yey");
-    location.href = "game1.html";
+    location.href = "winning.html";
   }
   obstaclesArr.forEach((obstacleInstance, i, arr) => {
     if (
