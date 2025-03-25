@@ -68,6 +68,10 @@ class Arrow {
     this.parentElm.appendChild(this.projectileElm);
   }
   arrowMovement() {
+    if (this.arrowShoot) {
+      clearInterval(this.arrowShoot);  // Clear any previous intervals to avoid stacking
+    }
+  
     this.arrowShoot = setInterval(() => {
       projectileArr.forEach((projectileInstance) => {
         if (this.direction === "right") {
@@ -75,35 +79,30 @@ class Arrow {
         } else if (this.direction === "left") {
           projectileInstance.positionX--;
         }
-
+  
+        // Collision detection logic...
         if (
-          newEnnemy.positionX <
-            projectileInstance.positionX + projectileInstance.width &&
-          newEnnemy.positionX + newEnnemy.width >
-            projectileInstance.positionX &&
-          newEnnemy.positionY <
-            projectileInstance.positionY + projectileInstance.height &&
-          newEnnemy.positionY + newEnnemy.height >
-            projectileInstance.positionY &&
+          newEnnemy.positionX < projectileInstance.positionX + projectileInstance.width &&
+          newEnnemy.positionX + newEnnemy.width > projectileInstance.positionX &&
+          newEnnemy.positionY < projectileInstance.positionY + projectileInstance.height &&
+          newEnnemy.positionY + newEnnemy.height > projectileInstance.positionY &&
           newEnnemy.status === "alive"
         ) {
           newEnnemy.ennemyElm.remove();
           newEnnemy.status = "dead";
           projectileInstance.projectileElm.remove();
           audio.play();
-          clearInterval(this.arrowShoot);
+          clearInterval(this.arrowShoot);  // Clear the interval once the arrow hits
         }
-
-        projectileInstance.projectileElm.style.width =
-          projectileInstance.width + "vw";
-        projectileInstance.projectileElm.style.height =
-          projectileInstance.height + "vh";
-        projectileInstance.projectileElm.style.left =
-          projectileInstance.positionX + "vw";
-        projectileInstance.projectileElm.style.bottom =
-          projectileInstance.positionY + "vh";
+  
+        // Update projectile position
+        projectileInstance.projectileElm.style.width = projectileInstance.width + "vw";
+        projectileInstance.projectileElm.style.height = projectileInstance.height + "vh";
+        projectileInstance.projectileElm.style.left = projectileInstance.positionX + "vw";
+        projectileInstance.projectileElm.style.bottom = projectileInstance.positionY + "vh";
       });
     }, 30);
+  
   }
   arrowVanish() {
     clearInterval(this.arrowShoot); // Clear the interval
